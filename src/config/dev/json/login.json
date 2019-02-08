@@ -1,0 +1,30 @@
+{
+  "storageUrl": "https://broomsy.lt/auth/login",
+  "buttons": {
+    "submit": {
+      "label": "Prisijungti"
+    }
+  },
+  "structure": {
+    "email": {
+      "type": "singleLine",
+      "label": "El. paštas",
+      "required": 1
+    },
+    "password": {
+      "type": "password",
+      "label": "Slaptažodis",
+      "required": 1,
+      "minLength": 6
+    },
+    "remember": {
+      "type": "checkBoxList",
+      "options": [
+        {
+          "id": "1",
+          "label": "Prisiminti mane"
+        }
+      ]
+    }
+  }
+}
