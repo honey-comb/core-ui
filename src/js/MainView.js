@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {changeMainView} from "./actions/main-view-actions";
 import {Constants} from "./helpers/Constants";
+import LoginForm from "./components/LoginForm";
 
 class MainView extends Component {
 
@@ -11,11 +12,11 @@ class MainView extends Component {
 
     render() {
 
-        switch (this.props.mainView) {
+        switch (this.props.mainView.view) {
 
             case Constants.state.LOGIN:
 
-                return <div/>;
+                return <LoginForm />;
 
             default:
 
@@ -27,9 +28,12 @@ class MainView extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    mainView: state.mainView
-});
+const mapStateToProps = (state, props) => {
+
+    return {
+        mainView: state.mainView
+    }
+};
 
 const mapActionsToProps = {
     changeMainView: changeMainView

@@ -5,7 +5,7 @@ export default function (state = [], {type, payload}) {
     switch (type) {
         case CHANGE_MAIN_VIEW :
 
-            return payload.view;
+            return payload;
 
         default :
             return state;
