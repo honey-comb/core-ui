@@ -11,7 +11,6 @@ const rootReducer = combineReducers({
     mainView: MainViewReducer,
 });
 
-const store = createStore(rootReducer, {}, window.devToolsExtension && window.devToolsExtension())
 /**
  * Registering store enhancers
  */
@@ -25,7 +24,6 @@ const allStoreEnhancers = compose(
  */
 const store = createStore(rootReducer, {}, allStoreEnhancers);
 
-ReactDOM.render(<Provider store={store}> <Starter/> </Provider>, document.getElementById('app'));
 /**
  * Placing Item on stage
  */
