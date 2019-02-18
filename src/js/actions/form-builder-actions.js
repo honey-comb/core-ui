@@ -1,10 +1,8 @@
 import axios from 'axios';
 
 export const FORM_BUILD = 'form:build';
-export const FORM_SHOW = 'form:show';
 export const FORM_DESTROY = 'form:destroy';
 export const FORM_UPDATE_FIELD = 'form:update-field';
-export const FORM_DEFAULT_VALUES = 'form:default-values';
 
 /**
  * Build form
