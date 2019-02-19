@@ -1,33 +1,49 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {changeMainView} from "./actions/main-view-actions";
-import {Constants} from "./helpers/Constants";
+import {changeMainView, loadConfig, VIEW_LOGIN} from "./actions/main-view-actions";
 import LoginForm from "./components/LoginForm";
+import * as PropTypes from "prop-types";
+import {Configuration} from "./helpers/Configuration";
+
 
 class MainView extends Component {
 
     constructor(props) {
         super(props);
+
+        Configuration.domain = props.domain;
     }
 
+    /**
+     * @returns {*}
+     */
     render() {
 
         switch (this.props.mainView.view) {
 
-            case Constants.state.LOGIN:
+            case VIEW_LOGIN:
 
-                return <LoginForm />;
+                return <LoginForm/>;
 
             default:
 
-                this.props.changeMainView(Constants.state.LOGIN);
-                break;
+                this.props.loadConfig(this.props.configUrl);
+                return <div/>;
         }
-
-        return <div/>;
     }
 }
 
+MainView.propTypes = {
+    configUrl: PropTypes.string.isRequired
+};
+
+/**
+ * Mapping state to props
+ *
+ * @param state
+ * @param props
+ * @returns {{mainView: Function}}
+ */
 const mapStateToProps = (state, props) => {
 
     return {
@@ -35,8 +51,14 @@ const mapStateToProps = (state, props) => {
     }
 };
 
+/**
+ * Mapping actions to props
+ *
+ * @type {{changeMainView: changeMainView}}
+ */
 const mapActionsToProps = {
-    changeMainView: changeMainView
+    changeMainView: changeMainView,
+    loadConfig: loadConfig,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(MainView);
