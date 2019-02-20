@@ -5,23 +5,18 @@ import TextField from "@material-ui/core/TextField/TextField";
 
 export default class SingleLine extends BaseField {
 
-    render() {
-        return this.getDefaultRender();
-    }
-
     getInput() {
 
         return <TextField
-            error={this.error}
+            error={!this.isValid()}
             id={this.props.id}
             label={this.props.label}
             required={this.props.required}
             variant="outlined"
-            defaultValue={this.props.defaultValue}
+            value={this.props.value}
             onChange={(e) => {
 
-                //TODO check for max min length from properties
-                this.props.onChange(this.props.id, e.target.value);
+                this.handleNaturalChange(e.target.value);
             }}
         />
     }
@@ -40,4 +35,6 @@ SingleLine.propTypes = {
 
 SingleLine.defaultProps = {
     required: false,
+    defaultValue: '',
+    value: '',
 };

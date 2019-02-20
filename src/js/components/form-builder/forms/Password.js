@@ -5,26 +5,32 @@ import BaseField from "./BaseField";
 
 export default class Password extends BaseField {
 
-    render() {
-
-        return this.getDefaultRender();
-    }
-
     getInput() {
+
         return <TextField
-            error={this.error}
+            error={!this.isValid()}
             id={this.props.id}
             label={this.props.label}
             required={this.props.required}
             variant="outlined"
             type="password"
+            value={this.props.value}
             onChange={(e) => {
 
-                this.error = e.target.value.length < this.props.properties.minLength;
-
-                this.props.onChange(this.props.id, e.target.value);
+                this.handleNaturalChange(e.target.value);
             }}
         />
+    }
+
+    /**
+     * Validating field value
+     *
+     * @param value
+     * @returns {boolean}
+     */
+    isValueValid(value) {
+
+        return (value && value.length >= this.props.properties.minLength);
     }
 }
 
@@ -34,11 +40,14 @@ Password.propTypes = {
     formId: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     annotation: PropTypes.string,
-    required: PropTypes.bool
+    required: PropTypes.bool,
+    properties: PropTypes.object
 };
 
 Password.defaultProps = {
     required: false,
+    value: '',
+    defaultValue: '',
     properties: {
         minLength: 1
     }

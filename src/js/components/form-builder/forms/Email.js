@@ -7,26 +7,31 @@ import BaseField from "./BaseField";
 export default class Email extends BaseField {
 
     getInput() {
+
         return <TextField
-            error={this.error}
+            error={!this.isValid()}
             id={this.props.id}
             label={this.props.label}
             required={this.props.required}
             autoComplete="email"
             variant="outlined"
-            defaultValue={this.props.defaultValue}
+            value={this.props.value}
             onChange={(e) => {
 
-                this.error = !Helpers.validateEmail(e.target.value);
-
-                this.props.onChange(this.props.id, e.target.value);
+                this.handleNaturalChange(e.target.value);
             }}
         />
     }
 
-    render() {
-
-        return this.getDefaultRender()
+    /**
+     * Validating email
+     *
+     * @param value
+     * @returns {*}
+     */
+    isValueValid (value)
+    {
+        return value ? Helpers.validateEmail(value) : true
     }
 }
 
@@ -43,4 +48,6 @@ Email.propTypes = {
 
 Email.defaultProps = {
     required: false,
+    value: '',
+    defaultValue: '',
 };

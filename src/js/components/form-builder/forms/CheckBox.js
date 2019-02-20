@@ -12,9 +12,9 @@ export default class CheckBox extends BaseField {
             control={
                 <Checkbox value={this.props.id}
                           color="primary"
-                          defaultChecked={this.props.defaultValue}
+                          checked={ this.props.value}
                           onChange={(e) => {
-                              this.props.onChange(this.props.id, e.target.checked);
+                              this.handleNaturalChange(e.target.checked);
                           }}/>
             }
         />
