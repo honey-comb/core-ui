@@ -1,8 +1,19 @@
-import {FORM_DESTROY, FORM_UPDATE_FIELD} from "../actions/form-builder-actions";
+import {FORM_DESTROY, FORM_RESET} from "../actions/form-builder-actions";
+import {FORM_UPDATE_FIELD} from "../actions/form-field-actions";
 
-export default function (state = [], {type, payload}) {
+export default function (state = {}, {type, payload}) {
 
     switch (type) {
+
+        /**
+         * Reset form to default values
+         */
+        case FORM_RESET :
+
+            return {
+                ...state,
+                [payload.formId]: payload.data
+            };
 
         /**
          * Updating field value in particular form
@@ -21,7 +32,7 @@ export default function (state = [], {type, payload}) {
          */
         case FORM_DESTROY :
 
-            delete (state[payload.formId]);
+            delete (state[payload.id]);
 
             return state;
 
