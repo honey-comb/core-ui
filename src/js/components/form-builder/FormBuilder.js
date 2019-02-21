@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import * as PropTypes from "prop-types";
 import Paper from "@material-ui/core/es/Paper/Paper";
 import connect from "react-redux/es/connect/connect";
-import {FORM_BUILD, loadForm, removeForm} from "../../actions/form-builder-actions";
+import {FORM_BUILD, loadForm, removeForm, resetForm} from "../../actions/form-builder-actions";
 import {Configuration} from "../../helpers/Configuration";
-import Button from "@material-ui/core/Button/Button";
 import {updateFormFieldValue} from "../../actions/form-field-actions";
+import Buttons from "./builder/Buttons"
 
 class FormBuilder extends Component {
 
@@ -14,7 +14,10 @@ class FormBuilder extends Component {
 
         this.createFormFields = this.createFormFields.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+
+        this.state = {
+            forceValidation: false
+        };
     }
 
     /**
@@ -29,22 +32,40 @@ class FormBuilder extends Component {
      * When component is removed delete all traces of the form
      */
     componentWillUnmount() {
+
         this.props.removeForm(this.props.id);
     }
 
     /**
      * Main render
      *
-     * @returns {*}
+     * @returns {Object}
      */
     render() {
 
-        switch (this.props.formData.view) {
+        switch (this.props.formConfig.view) {
 
             case FORM_BUILD:
 
                 return <Paper className={this.props.coreClass}>
-                    {this.createFormFields()}
+                    <form onSubmit={(e) => {
+                        this.handleFormSubmit(e)
+                    }}
+                          onChange={() => {
+                              this.setState({forceValidation: false});
+                          }}
+                    >
+                        {this.createFormFields()}
+                        <div className={"form-buttons"}>
+                            <Buttons id={this.props.id}
+                                     list={this.props.formConfig.data.buttons}
+                                     isDisabled={this.state.forceValidation}
+                                     onSubmit={(e) => this.handleFormSubmit(e)}
+                                     onReset={(e) => this.handleFormReset(e)}
+                                     onCancel={(e) => this.handleFormCancel(e)}
+                                     onDelete={(e) => this.handleFormDelete(e)}
+                            /></div>
+                    </form>
                 </Paper>;
 
             default :
@@ -53,51 +74,95 @@ class FormBuilder extends Component {
     }
 
     /**
+     * Handling
+     * @param e
+     */
+    handleFormSubmit(e) {
+        e.preventDefault();
+
+        // checking of any fields are not valid
+        const validity = Object.filter(this.props.fieldValues, fieldValue => fieldValue.isValid === false);
+
+        // if valid submit data, else validate fields to show user what is missing
+        if (Object.keys(validity).length === 0) {
+
+            // extracting current values
+            const data = Object.keys(this.props.fieldValues).map(key => this.props.fieldValues[key].currentValue);
+
+            console.log('Send to server', data);
+        } else {
+            this.setState({forceValidation: true});
+        }
+    }
+
+    /**
+     * Resetting form
+     */
+    handleFormReset() {
+        this.props.resetForm(this.props.id, this.props.fieldValues)
+    }
+
+    /**
+     *
+     */
+    handleFormCancel() {
+        console.log('Cancel')
+    }
+
+    /**
+     *
+     */
+    handleFormDelete() {
+        console.log('Delete')
+    }
+
+
+    /**
      * Creating form fields
      *
      * @returns {Array}
      */
     createFormFields() {
 
-        let formFields = [];
-        const structure = this.props.formData.data.structure;
+        let fieldValues = [];
+        const structure = this.props.formConfig.data.structure;
 
         Object.keys(structure).map((key, i) => {
 
-            formFields.push(this.getField(this.props.formData.data.structure[key], key, i))
+            fieldValues.push(this.getField(this.props.formConfig.data.structure[key], key, i))
         });
 
-        return formFields;
+        return fieldValues;
     }
 
     /**
      * Creating field from registered fields
      *
-     * @param config
+     * @param fieldConfig
      * @param key
      * @param i
      * @returns {*}
      */
-    getField(config, key, i) {
+    getField(fieldConfig, key, i) {
 
-        const FieldTagName = Configuration.formFields.get(config.type);
-        const value = this.props.formFieldsData ? this.props.formFieldsData[key] : undefined;
+        const FieldTagName = Configuration.formFields.get(fieldConfig.type);
+        const fieldProps = this.props.fieldValues[key];
 
         if (!FieldTagName)
             return '';
 
         return <FieldTagName key={i}
                              id={key}
-                             label={config.label}
-                             required={config.required}
-                             properties={config.properties}
-                             annotation={config.annotation}
+                             label={fieldConfig.label}
+                             required={fieldConfig.required}
+                             properties={fieldConfig.properties}
+                             annotation={fieldConfig.annotation}
                              formId={this.props.id}
                              onChange={this.onChange}
-                             value={value}
-                             defaultValue={config.value}
-
-
+                             value={fieldProps ? fieldProps.currentValue : fieldConfig.value}
+                             defaultValue={fieldProps ? fieldProps.defaultValue : fieldConfig.value}
+                             naturalChange={fieldProps ? fieldProps.naturalChange : false}
+                             forceValidation={this.state.forceValidation}
         />
     }
 
@@ -105,11 +170,11 @@ class FormBuilder extends Component {
      * On field change, update form field value
      *
      * @param id
-     * @param value
+     * @param data
      */
-    onChange(id, value) {
+    onChange(id, data) {
 
-        this.props.updateFormFieldValue(this.props.id, id, value);
+        this.props.updateFormFieldValue(this.props.id, id, data);
     }
 }
 
@@ -125,16 +190,16 @@ FormBuilder.propTypes = {
  *
  * @param state
  * @param props
- * @returns {{formFieldsData: {}, formData: {}}}
+ * @returns {{currentFieldValues: {}, formConfig: {}}}
  */
 const mapStateToProps = (state, props) => {
 
-    let formState = state.formBuilder[props.id];
-    let fieldDataState = state.formFieldsData[props.id];
+    let formConfig = state.formBuilder[props.id];
+    let fieldValues = state.fieldValues[props.id];
 
     return {
-        formFieldsData: fieldDataState ? fieldDataState : {},
-        formData: formState ? formState : {}
+        fieldValues: fieldValues ? fieldValues : {},
+        formConfig: formConfig ? formConfig : {}
     }
 };
 
@@ -147,6 +212,7 @@ const mapActionsToProps = {
     loadForm: loadForm,
     removeForm: removeForm,
     updateFormFieldValue: updateFormFieldValue,
+    resetForm: resetForm
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(FormBuilder);
