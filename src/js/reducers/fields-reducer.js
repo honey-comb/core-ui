@@ -14,10 +14,14 @@ export default function (state = {}, {type, payload}) {
                 state[payload.formId] = {};
             }
 
-            state[payload.formId][payload.key] = payload.data;
+            //state[payload.formId][payload.key] = payload.data;
 
             return {
-                ...state
+                ...state,
+                [payload.formId]: {
+                    ...state[payload.formId],
+                    [payload.key]: payload.data
+                }
             };
 
         /**
@@ -25,9 +29,18 @@ export default function (state = {}, {type, payload}) {
          */
         case FORM_RESET :
 
+            let data = payload.data;
+
+            Object.keys(data).map((key) => {
+                data[key].currentValue = data[key].defaultValue;
+                data[key].naturalChange = false;
+            });
+
             return {
                 ...state,
-                [payload.formId]: payload.data
+                [payload.formId]: {
+                    data
+                }
             };
 
         /**
