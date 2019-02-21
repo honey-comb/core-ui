@@ -4,11 +4,20 @@ import FormControl from "@material-ui/core/FormControl/FormControl";
 
 export default class BaseField extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.naturalChange = false;
+    }
+
     /**
      *
      * @returns {*}
      */
     render() {
+
+        this.naturalChange = this.props.naturalChange;
+
         return <FormControl margin="normal" required={this.props.required} fullWidth>
             {this.getInput()}
             {this.getAnnotation()}
@@ -20,8 +29,7 @@ export default class BaseField extends Component {
      */
     componentDidMount() {
 
-        const valid = this.isValid(true);
-        this.props.onChange(this.props.id, this.props.defaultValue, valid, true);
+        this.handleNaturalChange(this.props.defaultValue, true);
     }
 
     /**
@@ -43,9 +51,26 @@ export default class BaseField extends Component {
         return <div/>;
     }
 
-    handleNaturalChange(value) {
-        this.naturalChange = true;
-        this.props.onChange(this.props.id, value, this.isValid(false, value));
+    handleNaturalChange(value, isDefault) {
+
+        let valid = this.isValid(false, value)
+
+        if (isDefault) {
+            valid = this.isValid(isDefault);
+            //this.props.onChange(this.props.id, value, valid, true);
+        } else {
+            this.naturalChange = true;
+            //this.props.onChange(this.props.id, value, this.isValid(false, value));
+        }
+
+        let data = {
+            defaultValue: this.props.defaultValue,
+            currentValue: value,
+            naturalChange: this.naturalChange,
+            isValid: valid
+        };
+
+        this.props.onChange(this.props.id, data)
     }
 
     /**
