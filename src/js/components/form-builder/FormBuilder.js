@@ -6,6 +6,7 @@ import {FORM_BUILD, loadForm, removeForm, resetForm} from "../../actions/form-bu
 import {Configuration} from "../../helpers/Configuration";
 import {updateFormFieldValue} from "../../actions/form-field-actions";
 import Buttons from "./builder/Buttons"
+import Loader from "./builder/Loader";
 
 class FormBuilder extends Component {
 
@@ -16,7 +17,8 @@ class FormBuilder extends Component {
         this.onChange = this.onChange.bind(this);
 
         this.state = {
-            forceValidation: false
+            forceValidation: false,
+            isLoading: false
         };
     }
 
@@ -47,7 +49,7 @@ class FormBuilder extends Component {
 
             case FORM_BUILD:
 
-                return <Paper className={this.props.coreClass}>
+                return <Paper className={this.props.coreClass + ' form-wrapper'}>
                     <form onSubmit={(e) => {
                         this.handleFormSubmit(e)
                     }}
@@ -66,6 +68,7 @@ class FormBuilder extends Component {
                                      onDelete={(e) => this.handleFormDelete(e)}
                             /></div>
                     </form>
+                    {this.state.isLoading ? <Loader/> : ''}
                 </Paper>;
 
             default :
@@ -86,10 +89,13 @@ class FormBuilder extends Component {
         // if valid submit data, else validate fields to show user what is missing
         if (Object.keys(validity).length === 0) {
 
+            this.setState({isLoading: true});
+
             // extracting current values
             const data = Object.keys(this.props.fieldValues).map(key => this.props.fieldValues[key].currentValue);
 
-            console.log('Send to server', data);
+            console.log('NEED TO LOAD')
+
         } else {
             this.setState({forceValidation: true});
         }
