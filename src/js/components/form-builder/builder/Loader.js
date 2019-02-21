@@ -4,17 +4,30 @@ import CircularProgress from "@material-ui/core/CircularProgress/CircularProgres
 
 class Loader extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            opacity: 0
+        }
+    }
+
     render() {
 
-        return <div className="loader">
-            <CircularProgress />
+        return <div className="loader" style={{opacity: this.state.opacity}}>
+            <CircularProgress/>
         </div>;
+    }
+
+    componentDidMount() {
+
+        setTimeout(() => {
+            this.setState({opacity: 1})
+        }, 10);
     }
 }
 
-Loader.propTypes = {
-
-};
+Loader.propTypes = {};
 
 
 /**
@@ -25,17 +38,13 @@ Loader.propTypes = {
  */
 const mapStateToProps = (state, props) => {
 
-    return {
-
-    }
+    return {}
 };
 
 /**
  * Mapping actions to props
  *
  */
-const mapActionsToProps = {
-
-};
+const mapActionsToProps = {};
 
 export default connect(mapStateToProps, mapActionsToProps)(Loader);
