@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const FORM_BUILD = 'form:build';
 export const FORM_DESTROY = 'form:destroy';
-export const FORM_UPDATE_FIELD = 'form:update-field';
+export const FORM_RESET = 'form:reset';
 
 /**
  * Build form
@@ -53,4 +53,21 @@ export function loadForm(id, url) {
                 dispatch(buildForm(id, data));
             });
     };
+}
+
+/**
+ * Resetting form fields to default values
+ * @param formId
+ * @param data
+ * @returns {{type: string, payload: {formId: *, data: *}}}
+ */
+export function resetForm(formId, data)
+{
+    return {
+        type: FORM_RESET,
+        payload: {
+            formId: formId,
+            data: data
+        }
+    }
 }

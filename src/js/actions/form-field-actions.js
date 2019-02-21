@@ -1,21 +1,20 @@
-export const FORM_UPDATE_FIELD = 'form:update-field';
+export const FORM_UPDATE_FIELD = 'form-field:update-field';
 
 /**
  * Updating field value on change
  *
  * @param formId
  * @param key
- * @param value
+ * @param data
  * @returns {{type: string, payload: {formId: *, data: *}}}
  */
-export function updateFormFieldValue(formId, key, value) {
+export function updateFormFieldValue(formId, key, data) {
     return {
         type: FORM_UPDATE_FIELD,
         payload: {
             formId: formId,
             key: key,
-            value: value
+            data: data
         }
     }
 }
-
