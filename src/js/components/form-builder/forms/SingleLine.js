@@ -14,6 +14,7 @@ export default class SingleLine extends BaseField {
             required={this.props.required}
             variant="outlined"
             value={this.props.value}
+            disabled={this.props.isDisabled}
             onChange={(e) => {
 
                 this.handleNaturalChange(e.target.value);
@@ -30,11 +31,13 @@ SingleLine.propTypes = {
     value: PropTypes.string,
     defaultValue: PropTypes.string,
     annotation: PropTypes.string,
-    required: PropTypes.bool
+    required: PropTypes.bool,
+    isDisabled: PropTypes.bool
 };
 
 SingleLine.defaultProps = {
     required: false,
+    isDisabled: false,
     defaultValue: '',
     value: '',
 };

@@ -13,6 +13,7 @@ export default class CheckBox extends BaseField {
                 <Checkbox value={this.props.id}
                           color="primary"
                           checked={ this.props.value}
+                          disabled={this.props.isDisabled}
                           onChange={(e) => {
                               this.handleNaturalChange(e.target.checked);
                           }}/>
@@ -27,12 +28,14 @@ CheckBox.propTypes = {
     formId: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     value: PropTypes.bool,
+    isDisabled: PropTypes.bool,
     defaultValue: PropTypes.bool,
     annotation: PropTypes.string,
     required: PropTypes.bool
 };
 
 CheckBox.defaultProps = {
+    isDisabled: false,
     required: false,
     value: true,
 };

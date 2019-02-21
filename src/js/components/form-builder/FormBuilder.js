@@ -61,7 +61,7 @@ class FormBuilder extends Component {
                         <div className={"form-buttons"}>
                             <Buttons id={this.props.id}
                                      list={this.props.formConfig.data.buttons}
-                                     isDisabled={this.state.forceValidation}
+                                     isDisabled={this.state.forceValidation || this.state.isLoading}
                                      onSubmit={(e) => this.handleFormSubmit(e)}
                                      onReset={(e) => this.handleFormReset(e)}
                                      onCancel={(e) => this.handleFormCancel(e)}
@@ -163,12 +163,13 @@ class FormBuilder extends Component {
                              required={fieldConfig.required}
                              properties={fieldConfig.properties}
                              annotation={fieldConfig.annotation}
-                             formId={this.props.id}
-                             onChange={this.onChange}
                              value={fieldProps ? fieldProps.currentValue : fieldConfig.value}
                              defaultValue={fieldProps ? fieldProps.defaultValue : fieldConfig.value}
                              naturalChange={fieldProps ? fieldProps.naturalChange : false}
                              forceValidation={this.state.forceValidation}
+                             formId={this.props.id}
+                             onChange={this.onChange}
+                             isDisabled={this.state.isLoading}
         />
     }
 

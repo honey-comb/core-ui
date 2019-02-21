@@ -16,6 +16,7 @@ export default class Email extends BaseField {
             autoComplete="email"
             variant="outlined"
             value={this.props.value}
+            disabled={this.props.isDisabled}
             onChange={(e) => {
 
                 this.handleNaturalChange(e.target.value);
@@ -43,10 +44,12 @@ Email.propTypes = {
     value: PropTypes.string,
     defaultValue: PropTypes.string,
     annotation: PropTypes.string,
-    required: PropTypes.bool
+    required: PropTypes.bool,
+    isDisabled: PropTypes.bool
 };
 
 Email.defaultProps = {
+    isDisabled: false,
     required: false,
     value: '',
     defaultValue: '',

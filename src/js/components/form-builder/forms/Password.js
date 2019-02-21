@@ -15,6 +15,7 @@ export default class Password extends BaseField {
             variant="outlined"
             type="password"
             value={this.props.value}
+            disabled={this.props.isDisabled}
             onChange={(e) => {
 
                 this.handleNaturalChange(e.target.value);
@@ -41,11 +42,13 @@ Password.propTypes = {
     onChange: PropTypes.func.isRequired,
     annotation: PropTypes.string,
     required: PropTypes.bool,
+    isDisabled: PropTypes.bool,
     properties: PropTypes.object
 };
 
 Password.defaultProps = {
     required: false,
+    isDisabled: false,
     value: '',
     defaultValue: '',
     properties: {
