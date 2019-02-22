@@ -2,25 +2,49 @@ import React, {Component} from "react";
 import Button from "@material-ui/core/Button/Button";
 import * as PropTypes from "prop-types";
 import connect from "react-redux/es/connect/connect";
-import {resetForm} from "../../../actions/form-builder-actions";
 
 class Buttons extends Component {
 
     render() {
 
-        return [this.submitButton(), this.resetButton(), this.cancelButton(), this.deleteButton()].filter(
-            button => button !== null
-        );
+        let buttons = [];
+
+        this.props.list.map((value) => {
+
+            switch (value.type) {
+
+                case 'submit' :
+
+                    buttons.push(this.submitButton(value.label));
+                    break;
+
+                case 'reset' :
+
+                    buttons.push(this.resetButton(value.label));
+                    break;
+
+                case 'delete' :
+
+                    buttons.push(this.deleteButton(value.label));
+                    break;
+
+                case 'cancel' :
+
+                    buttons.push(this.cancelButton(value.label));
+                    break;
+            }
+        });
+
+        return buttons;
     }
 
     /**
      * submit Button creation
+     *
+     * @param label
      * @returns {*}
      */
-    submitButton() {
-        if (!this.props.list.submit) {
-            return null;
-        }
+    submitButton(label) {
 
         return <Button
             key="submit"
@@ -30,51 +54,48 @@ class Buttons extends Component {
             color="primary"
             className="submit"
             onClick={this.props.onSubmit}
-        >{this.props.list.submit.label}</Button>;
+        >{label}</Button>;
     }
 
     /**
      * reset Button creation
+     *
+     * @param label
      * @returns {*}
      */
-    resetButton() {
-        if (!this.props.list.reset) {
-            return null;
-        }
+    resetButton(label) {
 
         return <Button
             key="reset"
             variant="contained"
             className="reset"
             onClick={this.props.onReset}
-        >{this.props.list.reset.label}</Button>;
+        >{label}</Button>;
     }
 
     /**
      * cancel Button creation
+     *
+     * @param label
      * @returns {*}
      */
-    cancelButton() {
-        if (!this.props.list.cancel) {
-            return null;
-        }
+    cancelButton(label) {
 
         return <Button
             key="cancel"
             variant="contained"
             className="cancel"
             onClick={this.props.onCancel}
-        >{this.props.list.cancel.label}</Button>;
+        >{label}</Button>;
     }
 
     /**
      * delete Button creation
+     *
+     * @param label
      * @returns {*}
      */
-    deleteButton() {
-        if (!this.props.list.delete) {
-            return null;
-        }
+    deleteButton(label) {
 
         return <Button
             key="delete"
@@ -82,13 +103,13 @@ class Buttons extends Component {
             color="secondary"
             className="delete"
             onClick={this.props.onDelete}
-        >{this.props.list.delete.label}</Button>;
+        >{label}</Button>;
     }
 
 }
 
 Buttons.propTypes = {
-    list: PropTypes.object.isRequired,
+    list: PropTypes.array.isRequired,
     isDisabled: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onReset: PropTypes.func.isRequired,
@@ -105,17 +126,13 @@ Buttons.propTypes = {
  */
 const mapStateToProps = (state, props) => {
 
-    return {
-
-    }
+    return {}
 };
 
 /**
  * Mapping actions to props
  *
  */
-const mapActionsToProps = {
-
-};
+const mapActionsToProps = {};
 
 export default connect(mapStateToProps, mapActionsToProps)(Buttons);
