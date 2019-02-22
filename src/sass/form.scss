@@ -19,5 +19,9 @@
     justify-content: center;
     border-radius: 4px;
     transition: 0.3s;
+
+    .spinner {
+      color: var(--loader-spinner-color);
+    }
   }
 }

@@ -15,7 +15,7 @@ class Loader extends Component {
     render() {
 
         return <div className="loader" style={{opacity: this.state.opacity}}>
-            <CircularProgress/>
+            <CircularProgress className="spinner"/>
         </div>;
     }
 
