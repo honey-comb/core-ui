@@ -36,7 +36,7 @@ const rootReducer = combineReducers({
 /**
  * Registering store enhancers
  */
-const allStoreEnhancers = compose(
+const composedEnhancers = compose(
     applyMiddleware(thunk),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
@@ -44,7 +44,7 @@ const allStoreEnhancers = compose(
 /**
  * Creating Redux Store
  */
-const store = createStore(rootReducer, {}, allStoreEnhancers);
+const store = createStore(rootReducer, {}, composedEnhancers);
 
 /**
  * Placing Item on stage
