@@ -1,0 +1,19 @@
+{
+  "domain": "/core-ui/dist",
+  "version": "/",
+  "pathList": {
+    "login": {
+      "path": "json/login.json",
+      "providers": {
+        "google": {
+          "domains": [
+            "talech.com"
+          ]
+        }
+      }
+    },
+    "register": {
+      "path": "json/register.json"
+    }
+  }
+}
