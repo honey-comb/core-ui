@@ -9,15 +9,17 @@ export const FORM_RESET = 'form:reset';
  *
  * @param id
  * @param data
+ * @param content
  * @returns {{type: string, hash: number, payload: {id: *, data: *}}}
  */
-export function buildForm(id, data) {
+export function buildForm(id, data, content) {
 
     return {
         type: FORM_BUILD,
         payload: {
             id: id,
-            data: data
+            data: data,
+            content: content
         }
     }
 }
@@ -39,18 +41,62 @@ export function removeForm(id) {
 
 /**
  * Load form configuration
+ * @param loader {ApiLoader}
  * @param id
  * @param url
+ * @param recordId
  * @returns {function(*): Promise<AxiosResponse<any> | never>}
  */
-export function loadForm(id, url) {
+export function loadForm(loader, id, url, recordId) {
+
+    return dispatch => {
+
+        return loader.get(url).then(({data}) => {
+            dispatch(buildForm(id, data));
+        }).catch((error) => {
+            //console.log(error);
+        })
+    };
+}
+
+/**
+ * Submitting data to server POST / PUT
+ *
+ * @param formId
+ * @param url
+ * @param data
+ * @param recordId
+ */
+export function submitData(formId, url, data, recordId) {
+
+    url += recordId ? '/' + recordId : '';
+
+    return dispatch => {
+
+        if (recordId) {
+            axios.put(url)
+        } else {
+            axios.post(url)
+        }
+    };
+}
+
+/**
+ * Loading form content
+ * @param formId
+ * @param url
+ * @param recordId
+ * @returns {function(*): Promise<AxiosResponse<any> | never>}
+ */
+export function loadFormContent(formId, url, recordId) {
+    url += '/' + recordId;
 
     return dispatch => {
 
         return axios.get(url)
             .then(({data}) => {
 
-                dispatch(buildForm(id, data));
+                //console.log(data);
             });
     };
 }
@@ -61,8 +107,7 @@ export function loadForm(id, url) {
  * @param data
  * @returns {{type: string, payload: {formId: *, data: *}}}
  */
-export function resetForm(formId, data)
-{
+export function resetForm(formId, data) {
     return {
         type: FORM_RESET,
         payload: {

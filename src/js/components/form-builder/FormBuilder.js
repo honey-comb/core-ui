@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import * as PropTypes from "prop-types";
 import Paper from "@material-ui/core/es/Paper/Paper";
 import connect from "react-redux/es/connect/connect";
-import {FORM_BUILD, loadForm, removeForm, resetForm} from "../../actions/form-builder-actions";
+import {FORM_BUILD, loadForm, removeForm, resetForm, submitData} from "../../actions/form-builder-actions";
 import {Configuration} from "../../helpers/Configuration";
 import {updateFormFieldValue} from "../../actions/form-field-actions";
 import Buttons from "./builder/Buttons"
+import ApiLoader from "../../helpers/ApiLoader";
 import Loader from "./builder/Loader";
 
 class FormBuilder extends Component {
@@ -15,6 +16,9 @@ class FormBuilder extends Component {
 
         this.createFormFields = this.createFormFields.bind(this);
         this.onChange = this.onChange.bind(this);
+
+        this.formLoader = new ApiLoader();
+        this.formDataLoader = new ApiLoader();
 
         this.state = {
             forceValidation: false,
@@ -27,7 +31,7 @@ class FormBuilder extends Component {
      */
     componentDidMount() {
 
-        this.props.loadForm(this.props.id, this.props.url);
+        this.props.loadForm(this.formLoader, this.props.id, this.props.url, this.props.recordId);
     }
 
     /**
@@ -92,9 +96,14 @@ class FormBuilder extends Component {
             this.setState({isLoading: true});
 
             // extracting current values
-            const data = Object.keys(this.props.fieldValues).map(key => this.props.fieldValues[key].currentValue);
+            let data = {};
 
-            console.log('NEED TO LOAD')
+            Object.keys(this.props.fieldValues).map((key) => {
+
+                data[key] = this.props.fieldValues[key].currentValue;
+            });
+
+            this.props.submitData(this.props.id, this.props.formConfig.data.storageUrl, data, this.props.recordId);
 
         } else {
             this.setState({forceValidation: true});
@@ -189,6 +198,10 @@ FormBuilder.propTypes = {
     url: PropTypes.string.isRequired,
     inPopUp: PropTypes.bool,
     coreClass: PropTypes.string,
+    recordId: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]),
     id: PropTypes.string.isRequired
 };
 
@@ -219,7 +232,8 @@ const mapActionsToProps = {
     loadForm: loadForm,
     removeForm: removeForm,
     updateFormFieldValue: updateFormFieldValue,
-    resetForm: resetForm
+    resetForm: resetForm,
+    submitData: submitData
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(FormBuilder);
