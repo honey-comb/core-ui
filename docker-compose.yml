@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+  #Nginx Service
+  web-front-server:
+    image: nginx:alpine
+    container_name: web-front-server
+    restart: unless-stopped
+    tty: true
+    ports:
+    - "8080:8080"
+    - "4430:4430"
+    volumes:
+    - ./dist/:/var/www
+    - ./config-env/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+    - web-front-network
+
+#Docker Networks
+networks:
+  web-front-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local
