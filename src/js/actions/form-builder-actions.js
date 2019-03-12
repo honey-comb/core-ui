@@ -52,32 +52,11 @@ export function loadForm(loader, id, url, recordId) {
     return dispatch => {
 
         return loader.get(url).then(({data}) => {
+
             dispatch(buildForm(id, data));
         }).catch((error) => {
             //console.log(error);
         })
-    };
-}
-
-/**
- * Submitting data to server POST / PUT
- *
- * @param formId
- * @param url
- * @param data
- * @param recordId
- */
-export function submitData(formId, url, data, recordId) {
-
-    url += recordId ? '/' + recordId : '';
-
-    return dispatch => {
-
-        if (recordId) {
-            axios.put(url)
-        } else {
-            axios.post(url)
-        }
     };
 }
 
