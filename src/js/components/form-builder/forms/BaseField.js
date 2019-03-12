@@ -18,7 +18,7 @@ export default class BaseField extends Component {
 
         this.naturalChange = this.props.naturalChange;
 
-        return <FormControl margin="normal" required={this.props.required} fullWidth>
+        return <FormControl margin="normal" required={this.props.required} fullWidth hidden={this.props.hidden}>
             {this.getInput()}
             {this.getAnnotation()}
         </FormControl>
@@ -53,7 +53,7 @@ export default class BaseField extends Component {
 
     handleNaturalChange(value, isDefault) {
 
-        let valid = this.isValid(false, value)
+        let valid = this.isValid(false, value);
 
         if (isDefault) {
             valid = this.isValid(isDefault);
@@ -67,7 +67,8 @@ export default class BaseField extends Component {
             defaultValue: this.props.defaultValue,
             currentValue: value,
             naturalChange: this.naturalChange,
-            isValid: valid
+            isValid: valid,
+            hidden: this.props.hidden,
         };
 
         this.props.onChange(this.props.id, data)
