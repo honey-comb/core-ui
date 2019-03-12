@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {Globals} from "./Globals";
 
 export default class ApiLoader {
 
@@ -6,11 +7,13 @@ export default class ApiLoader {
      * Initializing loader
      *
      * @param headers
+     * @param notify
      */
-    constructor(headers) {
+    constructor(headers, notify) {
         this.source = {};
         this.loading = false;
         this.headers = headers ? headers : {};
+        this.notify = notify;
         this.generateCancelToken();
     }
 
@@ -40,11 +43,14 @@ export default class ApiLoader {
             axios.get(url, config)
                 .then(response => {
                     this.onEnd();
-                    resolve(response);
+                    resolve(response.data);
                 })
                 .catch(error => {
                     this.onEnd();
-                    reject(error);
+
+                    console.log(error);
+
+                    reject(error.response.data);
                 });
         });
     }
@@ -65,11 +71,11 @@ export default class ApiLoader {
             axios.post(url, params, config)
                 .then(response => {
                     this.onEnd();
-                    resolve(response);
+                    resolve(response.data);
                 })
                 .catch(error => {
                     this.onEnd();
-                    reject(error);
+                    reject(error.response.data);
                 });
         });
     }
@@ -90,11 +96,11 @@ export default class ApiLoader {
             axios.put(url, params, config)
                 .then(response => {
                     this.onEnd();
-                    resolve(response);
+                    resolve(response.data);
                 })
                 .catch(error => {
                     this.onEnd();
-                    reject(error);
+                    reject(error.response.data);
                 });
         });
     }
@@ -115,11 +121,11 @@ export default class ApiLoader {
             axios.patch(url, params, config)
                 .then(response => {
                     this.onEnd();
-                    resolve(response);
+                    resolve(response.data);
                 })
                 .catch(error => {
                     this.onEnd();
-                    reject(error);
+                    reject(error.response.data);
                 });
         });
     }
@@ -141,11 +147,11 @@ export default class ApiLoader {
             axios.delete(url, config)
                 .then(response => {
                     this.onEnd();
-                    resolve(response);
+                    resolve(response.data);
                 })
                 .catch(error => {
                     this.onEnd();
-                    reject(error);
+                    reject(error.response.data);
                 });
         });
     }
@@ -182,7 +188,20 @@ export default class ApiLoader {
      */
     getConfig() {
         return {
-            cancelToken: this.source.token
+            cancelToken: this.source.token,
+            headers: this.getAuthToken()
         };
+    }
+
+    getAuthToken() {
+        const tokenData = JSON.parse(localStorage.getItem(Globals.appName + '/token'));
+
+        if (tokenData) {
+            return tokenData.access_token ?
+                {'Authorization': 'Bearer ' + tokenData.access_token} :
+                undefined;
+        }
+
+        return undefined;
     }
 }
