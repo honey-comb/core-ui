@@ -30,8 +30,7 @@ export default class Email extends BaseField {
      * @param value
      * @returns {*}
      */
-    isValueValid (value)
-    {
+    isValueValid(value) {
         return value ? Helpers.validateEmail(value) : true
     }
 }
