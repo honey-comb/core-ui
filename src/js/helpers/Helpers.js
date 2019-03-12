@@ -58,10 +58,19 @@ export const Helpers = {
             return false;
 
         return emailReg.test(value);
+    },
+
+    /**
+     *
+     * @param path
+     */
+    navigate(path) {
+
+        window.history.pushState('', '', path);
     }
 };
 
 Object.filter = (obj, predicate) =>
     Object.keys(obj)
-        .filter( key => predicate(obj[key]) )
-        .reduce( (res, key) => (res[key] = obj[key], res), {} );
+        .filter(key => predicate(obj[key]))
+        .reduce((res, key) => (res[key] = obj[key], res), {});
