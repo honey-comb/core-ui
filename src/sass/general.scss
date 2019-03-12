@@ -15,3 +15,7 @@ html, body, #app {
   --main-bg-color: slategrey;
   --loader-spinner-color: slategrey;
 }
+
+div[hidden] {
+  display: none !important;
+}
