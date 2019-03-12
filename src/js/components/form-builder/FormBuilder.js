@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types";
 import Paper from "@material-ui/core/es/Paper/Paper";
 import connect from "react-redux/es/connect/connect";
 import {FORM_BUILD, loadForm, removeForm, resetForm, submitData} from "../../actions/form-builder-actions";
-import {Configuration} from "../../helpers/Configuration";
+import {Globals} from "../../helpers/Globals";
 import {updateFormFieldValue} from "../../actions/form-field-actions";
 import Buttons from "./builder/Buttons"
 import ApiLoader from "../../helpers/ApiLoader";
@@ -53,31 +53,42 @@ class FormBuilder extends Component {
 
             case FORM_BUILD:
 
-                return <Paper className={this.props.coreClass + ' form-wrapper'}>
-                    <form onSubmit={(e) => {
-                        this.handleFormSubmit(e)
-                    }}
-                          onChange={() => {
-                              this.setState({forceValidation: false});
-                          }}
-                    >
-                        {this.createFormFields()}
-                        <div className={"form-buttons"}>
-                            <Buttons id={this.props.id}
-                                     list={this.props.formConfig.data.buttons}
-                                     isDisabled={this.state.forceValidation || this.state.isLoading}
-                                     onSubmit={(e) => this.handleFormSubmit(e)}
-                                     onReset={(e) => this.handleFormReset(e)}
-                                     onCancel={(e) => this.handleFormCancel(e)}
-                                     onDelete={(e) => this.handleFormDelete(e)}
-                            /></div>
-                    </form>
+                if (this.props.inPopUp) {
+                    return <div className={"form-wrapper"} hidden={this.props.isHidden}>
+                        {this.getForm()}
+                        {this.state.isLoading ? <Loader key={"loader"}/> : ''}
+                    </div>
+                }
+
+                return <Paper className={this.props.coreClass + ' form-wrapper'} hidden={this.props.isHidden}>
+                    {this.getForm()}
                     {this.state.isLoading ? <Loader/> : ''}
                 </Paper>;
 
             default :
                 return <div/>;
         }
+    }
+
+    getForm() {
+        return <form key="form" onSubmit={(e) => {
+            this.handleFormSubmit(e)
+        }}
+                     onChange={() => {
+                         this.setState({forceValidation: false});
+                     }}
+        >
+            {this.createFormFields()}
+            <div className={"form-buttons"}>
+                <Buttons id={this.props.id}
+                         list={this.props.formConfig.data.buttons}
+                         isDisabled={this.state.forceValidation || this.state.isLoading}
+                         onSubmit={(e) => this.handleFormSubmit(e)}
+                         onReset={(e) => this.handleFormReset(e)}
+                         onCancel={(e) => this.handleFormCancel(e)}
+                         onDelete={(e) => this.handleFormDelete(e)}
+                /></div>
+        </form>
     }
 
     /**
@@ -103,11 +114,51 @@ class FormBuilder extends Component {
                 data[key] = this.props.fieldValues[key].currentValue;
             });
 
-            this.props.submitData(this.props.id, this.props.formConfig.data.storageUrl, data, this.props.recordId);
+            this.submitData(data);
 
         } else {
             this.setState({forceValidation: true});
         }
+    }
+
+    /**
+     * Submitting data to server POST / PUT
+     *
+     * @param data
+     */
+    submitData(data) {
+
+        let url = this.props.formConfig.data.storageUrl;
+
+        if (this.props.recordId) {
+            url += '/' + this.props.recordId;
+        }
+
+        if (this.props.recordId) {
+            this.formDataLoader.put(url, data).then((response) => {
+                this.props.onSuccess(response.data);
+
+                if (!this.props.keepDisabled) {
+                    this.setState({isLoading: false});
+                }
+            }).catch((e) => {
+                this.handleLoaderError(e);
+            });
+        } else {
+            this.formDataLoader.post(url, data).then((response) => {
+                this.props.onSuccess(response.data);
+
+                if (!this.props.keepDisabled) {
+                    this.setState({isLoading: false});
+                }
+            }).catch((e) => {
+                this.handleLoaderError(e);
+            });
+        }
+    }
+
+    handleLoaderError(data) {
+        this.setState({isLoading: false});
     }
 
     /**
@@ -160,7 +211,7 @@ class FormBuilder extends Component {
      */
     getField(fieldConfig, key, i) {
 
-        const FieldTagName = Configuration.formFields.get(fieldConfig.type);
+        const FieldTagName = Globals.formFields.get(fieldConfig.type);
         const fieldProps = this.props.fieldValues[key];
 
         if (!FieldTagName)
@@ -175,6 +226,7 @@ class FormBuilder extends Component {
                              value={fieldProps ? fieldProps.currentValue : fieldConfig.value}
                              defaultValue={fieldProps ? fieldProps.defaultValue : fieldConfig.value}
                              naturalChange={fieldProps ? fieldProps.naturalChange : false}
+                             hidden={fieldProps ? fieldProps.hidden : fieldConfig.hidden}
                              forceValidation={this.state.forceValidation}
                              formId={this.props.id}
                              onChange={this.onChange}
@@ -195,14 +247,18 @@ class FormBuilder extends Component {
 }
 
 FormBuilder.propTypes = {
+    id: PropTypes.string.isRequired,
+    formKey: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
+    onSuccess: PropTypes.func.isRequired,
     inPopUp: PropTypes.bool,
+    isHidden: PropTypes.bool,
+    keepDisabled: PropTypes.bool,
     coreClass: PropTypes.string,
     recordId: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number
     ]),
-    id: PropTypes.string.isRequired
 };
 
 /**
@@ -232,8 +288,7 @@ const mapActionsToProps = {
     loadForm: loadForm,
     removeForm: removeForm,
     updateFormFieldValue: updateFormFieldValue,
-    resetForm: resetForm,
-    submitData: submitData
+    resetForm: resetForm
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(FormBuilder);
