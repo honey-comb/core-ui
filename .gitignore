@@ -62,3 +62,6 @@ typings/
 
 #php storm
 .idea
+
+#distribution
+dist
