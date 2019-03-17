@@ -1,9 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {CoreView} from "../shared/CoreView";
-import LoginComponent from "../auth/LoginComponent";
 import * as PropTypes from "prop-types";
-import RegisterComponent from "../auth/RegisterComponent";
 
 class AuthView extends CoreView {
 
@@ -21,8 +19,7 @@ class AuthView extends CoreView {
          */
 
         this.routes = {
-            'login' : LoginComponent,
-            'register' : RegisterComponent,
+
         }
     }
 }
