@@ -15,7 +15,7 @@ export default class RegisterComponent extends Component {
         };
 
         this.getForm = this.getForm.bind(this);
-        this.loginCompleted = this.loginCompleted.bind(this);
+        this.registerCompleted = this.registerCompleted.bind(this);
     }
 
     /**
