@@ -13,15 +13,23 @@ export class CoreView extends Component {
         const path = window.location.pathname.split('/');
         const key = path[this.props.level] ? path[this.props.level] : this.default ? this.default : 'default';
 
-        let View = this.routes[key];
+        let View = undefined;
         let config = undefined;
 
-        if (!View || !this.props.config) {
+        // if no config provided for view, then the child is not found
+        if (!this.props.config) {
             View = NotFound;
         } else {
-            config = this.props.config.views[key];
-        }
 
+            //if there is no view in configuration, show not found
+            if (!this.props.config.views[key]) {
+                View = NotFound;
+            } else {
+                //if no view is specified in the component, show not found
+                View = this.routes[key] ? this.routes[key] : NotFound;
+                config = this.props.config.views[key];
+            }
+        }
         return <View level={this.props.level + 1} config={config} path={path}/>;
     }
 }
