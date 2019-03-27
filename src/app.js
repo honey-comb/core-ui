@@ -1,10 +1,10 @@
 import React from 'react';
 import {Globals} from "./js/helpers/Globals";
 
-import SingleLine from "./js/components/form-builder/forms/SingleLine";
-import Password from "./js/components/form-builder/forms/Password";
-import Email from "./js/components/form-builder/forms/Email";
-import CheckBox from "./js/components/form-builder/forms/CheckBox";
+import SingleLine from "./js/components/form-builder/fields/SingleLine";
+import Password from "./js/components/form-builder/fields/Password";
+import Email from "./js/components/form-builder/fields/Email";
+import CheckBox from "./js/components/form-builder/fields/CheckBox";
 
 import ReactDOM from "react-dom";
 import {Provider} from "react-redux";
