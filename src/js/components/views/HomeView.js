@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {CoreView} from "../shared/CoreView";
+import {CoreView} from "./CoreView";
 import AuthView from "./AuthView";
 import * as PropTypes from "prop-types";
 import DashboardComponent from "../dashboard/DashboardComponent";
