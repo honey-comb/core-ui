@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import NotFound from "../views/NotFound";
+import NotFound from "./NotFound";
 
 export class CoreView extends Component {
 
