@@ -1,8 +1,10 @@
-import Helpers from './HelpersV2';
+import Helpers from './Helpers';
 
 class Request {
 
-
+    /**
+     * Create a new Request instance.
+     */
     constructor() {
         this.request = {};
 

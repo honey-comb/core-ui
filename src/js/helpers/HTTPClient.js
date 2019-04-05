@@ -3,7 +3,7 @@ import axios from 'axios';
 export default class HTTPClient {
 
     /**
-     * Initializing client
+     * Create a new HTTPClient instance.
      */
     constructor() {
         this.source = {};

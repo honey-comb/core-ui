@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import * as PropTypes from "prop-types";
 import Paper from "@material-ui/core/es/Paper/Paper";
 import connect from "react-redux/es/connect/connect";
-import {FORM_BUILD, loadForm, removeForm, resetForm, submitData} from "../../actions/form-builder-actions";
-import {Globals} from "../../helpers/Globals";
+import {buildForm, FORM_BUILD, loadForm, removeForm, resetForm, submitData} from "../../actions/form-builder-actions";
+import {App} from "../../App";
 import {updateFormFieldValue} from "../../actions/form-field-actions";
 import Buttons from "./builder/Buttons"
-import ApiLoader from "../../helpers/ApiLoader";
 import Loader from "./builder/Loader";
+import ApiClient from "../../helpers/ApiClient";
 
 class FormBuilder extends Component {
 
@@ -17,8 +17,9 @@ class FormBuilder extends Component {
         this.createFormFields = this.createFormFields.bind(this);
         this.onChange = this.onChange.bind(this);
 
-        this.formLoader = new ApiLoader();
-        this.formDataLoader = new ApiLoader();
+        this.formLoader = new ApiClient();
+        this.formDataLoader = new ApiClient();
+
 
         this.state = {
             forceValidation: false,
@@ -30,8 +31,11 @@ class FormBuilder extends Component {
      * When component is mounted load form configuration
      */
     componentDidMount() {
-
-        this.props.loadForm(this.formLoader, this.props.id, this.props.url, this.props.recordId);
+        if(this.props.formStructure) {
+            this.props.buildForm(this.props.id, this.props.formStructure);
+        } else {
+            this.props.loadForm(this.formLoader, this.props.id, this.props.url, this.props.recordId);
+        }
     }
 
     /**
@@ -211,7 +215,7 @@ class FormBuilder extends Component {
      */
     getField(fieldConfig, key, i) {
 
-        const FieldTagName = Globals.formFields.get(fieldConfig.type);
+        const FieldTagName = App.formFields.get(fieldConfig.type);
         const fieldProps = this.props.fieldValues[key];
 
         if (!FieldTagName)
@@ -246,11 +250,16 @@ class FormBuilder extends Component {
     }
 }
 
+/**
+ *
+ * @type {Object}
+ */
 FormBuilder.propTypes = {
     id: PropTypes.string.isRequired,
     formKey: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     onSuccess: PropTypes.func.isRequired,
+    formStructure: PropTypes.object,
     inPopUp: PropTypes.bool,
     isHidden: PropTypes.bool,
     keepDisabled: PropTypes.bool,
@@ -266,7 +275,7 @@ FormBuilder.propTypes = {
  *
  * @param state
  * @param props
- * @returns {{currentFieldValues: {}, formConfig: {}}}
+ * @returns {Object}
  */
 const mapStateToProps = (state, props) => {
 
@@ -282,10 +291,11 @@ const mapStateToProps = (state, props) => {
 /**
  * Mapping actions to props
  *
- * @type {{loadForm: loadForm, removeForm: removeForm, updateFormFieldValue: updateFormFieldValue}}
+ * @type {Object}
  */
 const mapActionsToProps = {
     loadForm: loadForm,
+    buildForm: buildForm,
     removeForm: removeForm,
     updateFormFieldValue: updateFormFieldValue,
     resetForm: resetForm

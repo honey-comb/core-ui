@@ -27,8 +27,8 @@ export function buildForm(id, data, content) {
 /**
  * Remove form from memory
  *
- * @param id
- * @returns {{type: string, payload: {id: *}}}
+ * @param {string} id
+ * @returns {Object}
  */
 export function removeForm(id) {
     return {
@@ -41,9 +41,10 @@ export function removeForm(id) {
 
 /**
  * Load form configuration
- * @param loader {ApiLoader}
- * @param id
- * @param url
+ *
+ * @param {ApiClient} loader
+ * @param {string} id
+ * @param {string} url
  * @param recordId
  * @returns {function(*): Promise<AxiosResponse<any> | never>}
  */
@@ -62,6 +63,7 @@ export function loadForm(loader, id, url, recordId) {
 
 /**
  * Loading form content
+ *
  * @param formId
  * @param url
  * @param recordId

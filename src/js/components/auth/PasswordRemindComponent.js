@@ -2,9 +2,8 @@ import FormBuilder from "../form-builder/FormBuilder";
 import Grid from "@material-ui/core/Grid/Grid";
 import React, {Component} from "react";
 import Paper from "@material-ui/core/es/Paper/Paper";
-import {FORM_VIEW, SUCCESS_VIEW} from "../../helpers/Constants";
 import {Typography} from "@material-ui/core";
-import {trans} from "../../helpers/Translations";
+import {App} from "../../App";
 
 export default class PasswordRemindComponent extends Component {
 
@@ -13,7 +12,7 @@ export default class PasswordRemindComponent extends Component {
 
         this.state = {
             currentForm: 'password-remind',
-            view: FORM_VIEW
+            view: App.config.view.FORM_VIEW,
         };
 
         this.getForm = this.getForm.bind(this);
@@ -53,28 +52,28 @@ export default class PasswordRemindComponent extends Component {
      */
     remindCompleted(data) {
 
-       this.setState({view:SUCCESS_VIEW});
+        this.setState({
+            view: App.config.view.SUCCESS_VIEW,
+        });
     }
 
     /**
      *
      * @returns {*}
      */
-    getContent ()
-    {
+    getContent() {
         switch (this.state.view) {
-            case FORM_VIEW:
+            case App.config.view.FORM_VIEW:
 
                 return this.getForm();
 
-            case SUCCESS_VIEW :
+            case App.config.view.SUCCESS_VIEW :
 
                 return this.getSuccessView();
         }
     }
 
-    getSuccessView ()
-    {
-        return <Typography>{trans('password.remind_success')}</Typography>
+    getSuccessView() {
+        return <Typography>{App.trans('password.remind_success')}</Typography>
     }
 }

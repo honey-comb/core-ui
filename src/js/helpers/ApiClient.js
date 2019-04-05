@@ -6,7 +6,7 @@ import {API_BASE_URL} from "../config/App";
 export default class ApiClient extends HTTPClient {
 
     /**
-     * Initializing Api client
+     * Create a new ApiClient instance.
      */
     constructor() {
         super();

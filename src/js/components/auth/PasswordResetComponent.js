@@ -2,8 +2,7 @@ import FormBuilder from "../form-builder/FormBuilder";
 import Grid from "@material-ui/core/Grid/Grid";
 import React, {Component} from "react";
 import Paper from "@material-ui/core/es/Paper/Paper";
-import {Globals} from "../../helpers/Globals";
-import {Helpers} from "../../helpers/Helpers";
+import {App} from "../../App";
 
 export default class PasswordResetComponent extends Component {
 
@@ -53,9 +52,7 @@ export default class PasswordResetComponent extends Component {
      * @param data
      */
     resetCompleted(data) {
-
-        Globals.config.setAuthConfig(data.token);
-        Helpers.navigate('/');
-        window.location.reload();
+        App.services.user.setToken(data.token);
+        App.request.redirect('/');
     }
 }

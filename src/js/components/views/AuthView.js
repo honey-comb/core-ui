@@ -14,6 +14,7 @@ class AuthView extends CoreView {
 
         /**
          * Adding default view
+         *
          * @type {string}
          */
         this.default = 'login';
@@ -31,6 +32,10 @@ class AuthView extends CoreView {
     }
 }
 
+/**
+ *
+ * @type {Object}
+ */
 AuthView.propTypes = {
     level: PropTypes.number.isRequired
 };
@@ -40,10 +45,9 @@ AuthView.propTypes = {
  *
  * @param state
  * @param props
- * @returns {{mainView: Function}}
+ * @returns {Object}
  */
 const mapStateToProps = (state, props) => {
-
     return {}
 };
 

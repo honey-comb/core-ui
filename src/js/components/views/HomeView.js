@@ -4,7 +4,7 @@ import {CoreView} from "./CoreView";
 import AuthView from "./AuthView";
 import * as PropTypes from "prop-types";
 import DashboardComponent from "../dashboard/DashboardComponent";
-import {Globals} from "../../helpers/Globals";
+import {App} from "../../App";
 
 class HomeView extends CoreView {
 
@@ -17,7 +17,7 @@ class HomeView extends CoreView {
          */
         this.default = 'auth';
 
-        if (Globals.config.get().config && Globals.config.get().config.user) {
+        if (App.services.view.getConfig('user')) {
             this.default = 'dashboard';
         }
 
@@ -31,6 +31,11 @@ class HomeView extends CoreView {
     }
 }
 
+
+/**
+ *
+ * @type {Object}
+ */
 HomeView.propTypes = {
     config: PropTypes.object,
     level: PropTypes.number,
@@ -41,13 +46,13 @@ HomeView.propTypes = {
  *
  * @param state
  * @param props
- * @returns {{mainView: Function}}
+ * @returns {Object}
  */
 const mapStateToProps = (state, props) => {
 
     return {
         level: 1,
-        config: Globals.config.get()
+        config: App.services.view.all()
     }
 };
 

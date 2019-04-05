@@ -1,10 +1,5 @@
 import React from 'react';
-import {Globals} from "./js/helpers/Globals";
-
-import SingleLine from "./js/components/form-builder/fields/SingleLine";
-import Password from "./js/components/form-builder/fields/Password";
-import Email from "./js/components/form-builder/fields/Email";
-import CheckBox from "./js/components/form-builder/fields/CheckBox";
+import {App} from "./js/App";
 
 import ReactDOM from "react-dom";
 import {Provider} from "react-redux";
@@ -12,22 +7,19 @@ import {Route, Router} from 'react-router'
 import configureStore from "./js/MainStore";
 import {createBrowserHistory} from "history";
 import HomeView from "./js/components/views/HomeView";
-
-//TODO find better place for form field register
-/**
- * Registering available form fields
- */
-Globals.formFields.register('singleLine', SingleLine);
-Globals.formFields.register('password', Password);
-Globals.formFields.register('email', Email);
-Globals.formFields.register('checkBox', CheckBox);
+import {FORM_FIELD_LIST} from "./js/config/Components";
 
 /**
  * Initializing browser history
  */
 export const history = createBrowserHistory();
 
-Globals.render = function () {
+/**
+ * Registering available form fields
+ */
+App.formFields.registerMany(FORM_FIELD_LIST);
+
+App.render = function () {
     const store = configureStore();
 
     /**
@@ -43,4 +35,9 @@ Globals.render = function () {
     );
 };
 
-Globals.config.init(document.querySelector('#app').dataset.configUrl);
+App.init();
+
+Object.filter = (obj, predicate) =>
+    Object.keys(obj)
+        .filter(key => predicate(obj[key]))
+        .reduce((res, key) => (res[key] = obj[key], res), {});

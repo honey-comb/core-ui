@@ -1,7 +1,6 @@
-import Helpers from './HelpersV2';
+import Helpers from './Helpers';
 
 class Messages {
-
 
     /**
      * Create a new Messages instance.
