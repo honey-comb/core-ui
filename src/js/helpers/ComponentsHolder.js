@@ -38,7 +38,7 @@ export default class ComponentsHolder {
     /**
      * Get registered component
      *
-     * @param {string} name
+     * @param {string} key
      * @returns {*}
      */
     get(key) {

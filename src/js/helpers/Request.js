@@ -176,8 +176,8 @@ class Request {
     /**
      * Get a segment from the URI (1 based index).
      *
-     * @param  {integer}  $index
-     * @param  {(string|null)}  $default
+     * @param  {int} index
+     * @param  {(string|null)} def
      * @return {(string|null)}
      */
     segment(index, def) {
@@ -190,10 +190,10 @@ class Request {
     /**
      * Reload page
      *
-     * @param {bool} forcedReload
+     * @param {bool} [forcedReload=false]
      */
     reload(forcedReload) {
-        document.location.reload(forcedReload ? true : false);
+        document.location.reload(!!forcedReload);
     }
 
 

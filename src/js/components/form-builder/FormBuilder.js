@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import * as PropTypes from "prop-types";
 import Paper from "@material-ui/core/es/Paper/Paper";
 import connect from "react-redux/es/connect/connect";
-import {buildForm, FORM_BUILD, loadForm, removeForm, resetForm, submitData} from "../../actions/form-builder-actions";
+import {buildForm, FORM_BUILD, loadForm, removeForm, resetForm} from "../../actions/form-builder-actions";
 import {App} from "../../App";
 import {updateFormFieldValue} from "../../actions/form-field-actions";
 import Buttons from "./builder/Buttons"
@@ -34,6 +34,7 @@ class FormBuilder extends Component {
         if(this.props.formStructure) {
             this.props.buildForm(this.props.id, this.props.formStructure);
         } else {
+            // TODO remove loading from redux action, and add it to this component
             this.props.loadForm(this.formLoader, this.props.id, this.props.url, this.props.recordId);
         }
     }
@@ -161,7 +162,12 @@ class FormBuilder extends Component {
         }
     }
 
+    /**
+     * Handling load error
+     * @param data
+     */
     handleLoaderError(data) {
+        //TODO do something with error data
         this.setState({isLoading: false});
     }
 

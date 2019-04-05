@@ -49,4 +49,4 @@ export const App = {
     render: function () {
         console.log('render application');
     }
-}
+};
