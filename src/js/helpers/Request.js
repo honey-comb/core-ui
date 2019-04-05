@@ -170,7 +170,7 @@ class Request {
      * @returns {string[]}
      */
     segments() {
-        return this.helpers.ltrim(this.path(), '/').split('/');
+        return this.helpers.ltrim(this.path(), '/').split('/').filter(Boolean);
     }
 
     /**

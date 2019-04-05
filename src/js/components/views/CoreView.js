@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import NotFound from "./NotFound";
+import {App} from "../../App";
 
 export class CoreView extends Component {
 
@@ -8,10 +9,8 @@ export class CoreView extends Component {
     }
 
     renderChildView() {
-
-        // splitting reducers view naming
-        const path = window.location.pathname.split('/');
-        const key = path[this.props.level] ? path[this.props.level] : this.default ? this.default : 'default';
+        let defKey = this.default ? this.default : 'default';
+        const key = App.request.segment(this.props.level, defKey);
 
         let View = undefined;
         let config = undefined;
@@ -30,6 +29,6 @@ export class CoreView extends Component {
                 config = this.props.config.views[key];
             }
         }
-        return <View level={this.props.level + 1} config={config} path={path}/>;
+        return <View level={this.props.level + 1} config={config}/>;
     }
 }

@@ -14,7 +14,6 @@ import ViewConfig from "./config/View";
 import ComponentsHolder from "./helpers/ComponentsHolder";
 import ViewService from "./services/ViewService";
 
-
 export const App = {
     init: function () {
         let client = new ApiClient();

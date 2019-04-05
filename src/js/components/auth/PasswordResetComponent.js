@@ -35,7 +35,7 @@ export default class PasswordResetComponent extends Component {
      */
     getForm() {
 
-        const formUrl = this.props.config.forms[this.state.currentForm] + '?token=' + window.location.pathname.split('/')[3];
+        const formUrl = this.props.config.forms[this.state.currentForm] + '?token=' + App.request.segment(3);
 
         return <FormBuilder id={this.state.currentForm}
                             key={this.state.currentForm}
