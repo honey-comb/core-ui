@@ -104,25 +104,28 @@ class FormBuilder extends Component {
         e.preventDefault();
 
         // checking of any fields are not valid
-        const validity = Object.filter(this.props.fieldValues, fieldValue => fieldValue.isValid === false);
+        const validity = App.helpers.object_where(this.props.fieldValues, fieldValue => fieldValue.isValid === false);
 
         // if valid submit data, else validate fields to show user what is missing
         if (Object.keys(validity).length === 0) {
 
-            this.setState({isLoading: true});
+            this.setState({
+                isLoading: true
+            });
 
             // extracting current values
             let data = {};
 
-            Object.keys(this.props.fieldValues).map((key) => {
-
-                data[key] = this.props.fieldValues[key].currentValue;
-            });
+            App.helpers.object_foreach(this.props.fieldValues, (value, key) => {
+                data[key] = value.currentValue;
+            })
 
             this.submitData(data);
 
         } else {
-            this.setState({forceValidation: true});
+            this.setState({
+                forceValidation: true
+            });
         }
     }
 
