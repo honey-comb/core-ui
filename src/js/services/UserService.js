@@ -50,5 +50,5 @@ export default class UserService extends Service {
      */
     getAuthTokenName () {
         return SESSION_TOKEN_NAME;
-    }
+    };
 }
