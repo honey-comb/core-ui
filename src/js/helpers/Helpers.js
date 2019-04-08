@@ -150,6 +150,18 @@ export default class Helpers {
 
 
     /**
+     * Finds whether a variable is an current instance
+     *
+     * @param  {*} variable
+     * @param  {*} Instance
+     * @returns {boolean}
+     */
+    is_instance(variable, Instance) {
+        return variable instanceof Instance;
+    }
+
+
+    /**
      *
      * @param {*} variable
      * @returns {boolean}
