@@ -8,23 +8,28 @@ import {App} from "../../App";
 
 class HomeView extends CoreView {
 
-    constructor(props) {
-        super(props);
 
-        /**
-         * Adding default view
-         * @type {string}
-         */
-        this.default = 'auth';
-
+    /**
+     * Default view key
+     *
+     * @returns {string}
+     */
+    getDefaultRouteKey() {
         if (App.services.view.getConfig('user')) {
-            this.default = 'dashboard';
+            return 'dashboard';
         }
 
-        /**
-         * Registering all views under this component
-         */
-        this.routes = {
+        return 'auth';
+    }
+
+
+    /**
+     * Get views
+     *
+     * @returns {Object}
+     */
+    getRoutes() {
+        return {
             'auth': AuthView,
             'dashboard': DashboardComponent,
         };

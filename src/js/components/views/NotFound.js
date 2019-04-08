@@ -5,6 +5,12 @@ import {App} from "../../App";
 
 export default class NotFound extends Component {
 
+
+    /**
+     * Render component
+     *
+     * @returns {*}
+     */
     render() {
 
         return <Paper elevation={1}>

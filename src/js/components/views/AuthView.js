@@ -9,21 +9,23 @@ import PasswordResetComponent from "../auth/PasswordResetComponent";
 
 class AuthView extends CoreView {
 
-    constructor(props) {
-        super(props);
 
-        /**
-         * Adding default view
-         *
-         * @type {string}
-         */
-        this.default = 'login';
+    /**
+     * Default view key
+     *
+     * @returns {string}
+     */
+    getDefaultRouteKey() {
+        return 'login';
+    }
 
-        /**
-         * Registering all views under this component
-         */
-
-        this.routes = {
+    /**
+     * Get views
+     *
+     * @returns {Object}
+     */
+    getRoutes() {
+        return {
             'login': LoginComponent,
             'register': RegisterComponent,
             'password-remind': PasswordRemindComponent,
