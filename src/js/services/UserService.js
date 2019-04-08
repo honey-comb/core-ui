@@ -21,7 +21,7 @@ export default class UserService extends Service {
      * @param {Object} token
      */
     setToken (token) {
-        localStorage.setItem(SESSION_TOKEN_NAME, JSON.stringify(token));
+        localStorage.setItem(this.getAuthTokenName(), JSON.stringify(token));
     };
 
 
@@ -31,7 +31,7 @@ export default class UserService extends Service {
      * @returns {(Object|null)}
      */
     getToken () {
-        return JSON.parse(localStorage.getItem(SESSION_TOKEN_NAME));
+        return JSON.parse(localStorage.getItem(this.getAuthTokenName()));
     };
 
 
@@ -39,6 +39,16 @@ export default class UserService extends Service {
      * Logout user
      */
     logout () {
-        localStorage.removeItem(SESSION_TOKEN_NAME);
+        localStorage.removeItem(this.getAuthTokenName());
     };
+
+
+    /**
+     * Get auth token name
+     *
+     * @returns {string}
+     */
+    getAuthTokenName () {
+        return SESSION_TOKEN_NAME;
+    }
 }
