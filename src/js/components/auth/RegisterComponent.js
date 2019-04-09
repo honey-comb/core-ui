@@ -2,8 +2,7 @@ import FormBuilder from "../form-builder/FormBuilder";
 import Grid from "@material-ui/core/Grid/Grid";
 import React, {Component} from "react";
 import Paper from "@material-ui/core/es/Paper/Paper";
-import {Globals} from "../../helpers/Globals";
-import {Helpers} from "../../helpers/Helpers";
+import {App} from "../../App";
 
 export default class RegisterComponent extends Component {
 
@@ -15,7 +14,7 @@ export default class RegisterComponent extends Component {
         };
 
         this.getForm = this.getForm.bind(this);
-        this.loginCompleted = this.loginCompleted.bind(this);
+        this.registerCompleted = this.registerCompleted.bind(this);
     }
 
     /**
@@ -50,9 +49,7 @@ export default class RegisterComponent extends Component {
      * @param data
      */
     registerCompleted(data) {
-
-        Globals.config.setAuthConfig(data.token);
-        Helpers.navigate('/');
-        window.location.reload();
+        App.services.user.setToken(data.token);
+        App.request.redirect('/');
     }
 }

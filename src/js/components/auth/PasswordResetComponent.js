@@ -2,8 +2,7 @@ import FormBuilder from "../form-builder/FormBuilder";
 import Grid from "@material-ui/core/Grid/Grid";
 import React, {Component} from "react";
 import Paper from "@material-ui/core/es/Paper/Paper";
-import {Globals} from "../../helpers/Globals";
-import {Helpers} from "../../helpers/Helpers";
+import {App} from "../../App";
 
 export default class PasswordResetComponent extends Component {
 
@@ -36,7 +35,7 @@ export default class PasswordResetComponent extends Component {
      */
     getForm() {
 
-        const formUrl = this.props.config.forms[this.state.currentForm] + '?token=' + window.location.pathname.split('/')[3];
+        const formUrl = this.props.config.forms[this.state.currentForm] + '?token=' + App.request.segment(3);
 
         return <FormBuilder id={this.state.currentForm}
                             key={this.state.currentForm}
@@ -53,9 +52,7 @@ export default class PasswordResetComponent extends Component {
      * @param data
      */
     resetCompleted(data) {
-
-        Globals.config.setAuthConfig(data.token);
-        Helpers.navigate('/');
-        window.location.reload();
+        App.services.user.setToken(data.token);
+        App.request.redirect('/');
     }
 }

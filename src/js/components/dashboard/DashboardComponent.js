@@ -2,9 +2,13 @@ import React, {Component} from "react";
 
 export default class DashboardComponent extends Component {
 
-    render() {
 
-        
+    /**
+     * Render component
+     *
+     * @returns {*}
+     */
+    render() {
 
         return <div>Dashboard</div>
     }

@@ -1,8 +1,9 @@
 import React from "react";
 import * as PropTypes from "prop-types";
-import TextField from "@material-ui/core/TextField/TextField";
-import {Helpers} from "../../../helpers/Helpers";
+
+import {App} from "../../../App";
 import BaseField from "./BaseField";
+import TextField from "@material-ui/core/TextField/TextField";
 
 export default class Email extends BaseField {
 
@@ -31,7 +32,11 @@ export default class Email extends BaseField {
      * @returns {*}
      */
     isValueValid(value) {
-        return value ? Helpers.validateEmail(value) : true
+        if (value) {
+            return App.validation.validateEmail(value);
+        }
+
+        return true;
     }
 }
 
