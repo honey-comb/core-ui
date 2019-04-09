@@ -23,14 +23,14 @@ import ViewConfig from "./config/View";
 import {FORM_FIELD_LIST} from "./config/Components";
 
 import configureStore from "./MainStore";
-import HomeView from "./components/views/HomeView";
+import MainView from "./views/MainView";
 
 /**
  * Initializing browser history
  */
 export const history = createBrowserHistory();
 
-export default class AppCore {
+export default class Core {
 
     constructor() {
 
@@ -180,7 +180,7 @@ export default class AppCore {
         ReactDOM.render(
             <Provider store={store}>
                 <Router history={history}>
-                    <Route path={'*'} exact={true} component={HomeView}/>
+                    <Route path={'*'} exact={true} component={MainView}/>
                 </Router>
             </Provider>,
             document.getElementById('app')

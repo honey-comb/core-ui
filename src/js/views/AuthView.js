@@ -1,11 +1,12 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {CoreView} from "./CoreView";
-import LoginComponent from "../auth/LoginComponent";
 import * as PropTypes from "prop-types";
-import RegisterComponent from "../auth/RegisterComponent";
-import PasswordRemindComponent from "../auth/PasswordRemindComponent";
-import PasswordResetComponent from "../auth/PasswordResetComponent";
+
+import CoreView from "./CoreView";
+import LoginComponent from "../components/auth/LoginComponent";
+import RegisterComponent from "../components/auth/RegisterComponent";
+import PasswordResetComponent from "../components/auth/PasswordResetComponent";
+import PasswordRemindComponent from "../components/auth/PasswordRemindComponent";
 
 class AuthView extends CoreView {
 
@@ -31,6 +32,10 @@ class AuthView extends CoreView {
             'password-remind': PasswordRemindComponent,
             'password-reset': PasswordResetComponent,
         }
+    }
+
+    renderChildView() {
+        return super.renderChildView();
     }
 }
 
