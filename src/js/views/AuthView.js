@@ -20,6 +20,7 @@ class AuthView extends CoreView {
         return 'login';
     }
 
+
     /**
      * Get views
      *
@@ -32,10 +33,6 @@ class AuthView extends CoreView {
             'password-remind': PasswordRemindComponent,
             'password-reset': PasswordResetComponent,
         }
-    }
-
-    renderChildView() {
-        return super.renderChildView();
     }
 }
 
