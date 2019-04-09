@@ -1,6 +1,6 @@
 {
   "name": "@honey-comb/core-ui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "ReactJS Admin panel",
   "private": false,
   "scripts": {

@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import NotFound from "./NotFound";
-import {App} from "../../App";
 
-export class CoreView extends Component {
+import {App} from "../App";
+import NotFound from "../components/NotFound";
+
+export default class CoreView extends Component {
 
 
     /**
@@ -45,7 +46,7 @@ export class CoreView extends Component {
     getKey() {
         const path = this.getSegments();
 
-        return path[this.props.level] ? path[this.props.level] : this.getDefaultRouteKey();
+        return path[this.props.level - 1] ? path[this.props.level - 1] : this.getDefaultRouteKey();
     }
 
 
@@ -95,7 +96,7 @@ export class CoreView extends Component {
      *
      * @returns {*}
      */
-    renderChildView () {
+    renderChildView() {
         const key = this.getKey();
         const config = this.getConfig(key);
         const View = this.getView(key);

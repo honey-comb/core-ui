@@ -173,6 +173,7 @@ class Request {
         return this.helpers.ltrim(this.path(), '/').split('/').filter(Boolean);
     }
 
+
     /**
      * Get a segment from the URI (1 based index).
      *

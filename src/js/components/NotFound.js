@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import Paper from "@material-ui/core/es/Paper/Paper";
 import Typography from "@material-ui/core/Typography/Typography";
-import {App} from "../../App";
+
+import {App} from "../App";
 
 export default class NotFound extends Component {
 
