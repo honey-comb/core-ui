@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {CoreView} from "./CoreView";
+import {App} from "../App";
+import CoreView from "./CoreView";
 import AuthView from "./AuthView";
 import * as PropTypes from "prop-types";
-import DashboardComponent from "../dashboard/DashboardComponent";
-import {App} from "../../App";
+import DashboardComponent from "../components/dashboard/DashboardComponent";
 
-class HomeView extends CoreView {
+class MainView extends CoreView {
 
 
     /**
@@ -34,6 +34,10 @@ class HomeView extends CoreView {
             'dashboard': DashboardComponent,
         };
     }
+
+    renderChildView() {
+        return super.renderChildView();
+    }
 }
 
 
@@ -41,7 +45,7 @@ class HomeView extends CoreView {
  *
  * @type {Object}
  */
-HomeView.propTypes = {
+MainView.propTypes = {
     config: PropTypes.object,
     level: PropTypes.number,
 };
@@ -66,4 +70,4 @@ const mapStateToProps = (state, props) => {
  */
 const mapActionsToProps = {};
 
-export default connect(mapStateToProps, mapActionsToProps)(HomeView);
+export default connect(mapStateToProps, mapActionsToProps)(MainView);
