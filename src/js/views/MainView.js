@@ -34,10 +34,6 @@ class MainView extends CoreView {
             'dashboard': DashboardComponent,
         };
     }
-
-    renderChildView() {
-        return super.renderChildView();
-    }
 }
 
 
