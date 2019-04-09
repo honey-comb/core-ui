@@ -30,6 +30,7 @@
     "express": "^4.16.4",
     "history": "^4.7.2",
     "laravel-mix": "^4.0.14",
+    "lodash": "^4.17.11",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

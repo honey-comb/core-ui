@@ -2,10 +2,8 @@ import FormBuilder from "../form-builder/FormBuilder";
 import Grid from "@material-ui/core/Grid/Grid";
 import React, {Component} from "react";
 import Paper from "@material-ui/core/es/Paper/Paper";
-import {Globals} from "../../helpers/Globals";
-import {Link} from 'react-router-dom';
-import Typography from "@material-ui/core/es/Typography/Typography";
-import {Helpers} from "../../helpers/Helpers";
+
+import {App} from "../../App";
 
 export default class LoginComponent extends Component {
 
@@ -24,7 +22,6 @@ export default class LoginComponent extends Component {
      * @returns {*}
      */
     render() {
-
         return <Grid container justify="center" alignContent={"center"} className={"login-wrapper"}>
             <Paper className={'login-form'}>
                 {this.getForm()}
@@ -53,9 +50,7 @@ export default class LoginComponent extends Component {
      * @param data
      */
     loginCompleted(data) {
-
-        Globals.config.setAuthConfig(data.token);
-        Helpers.navigate('/');
-        window.location.reload();
+        App.services.user.setToken(data.token);
+        App.request.redirect('/');
     }
 }

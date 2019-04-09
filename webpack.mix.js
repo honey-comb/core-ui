@@ -15,7 +15,9 @@ Mix.manifest.refresh = _ => void 0;
  */
 
 mix.react('src/app.js', 'dist/')
-    .sass('src/app.scss', 'dist/');
+    .sass('src/app.scss', 'dist/')
+    .sourceMaps()
+    .webpackConfig({devtool: 'source-map'});
 
 // Full API
 // mix.js(src, output);
